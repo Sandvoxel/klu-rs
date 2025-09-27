@@ -1,6 +1,5 @@
-use std::os::raw::c_ulong;
 #[allow(non_camel_case_types)]
-pub type size_t = c_ulong;
+pub type size_t = libc::size_t;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -34,9 +33,9 @@ pub struct KluLCommon {
     pub initmem_amd: f64,
     pub initmem: f64,
     pub maxwork: f64,
-    pub btf: i64,
-    pub ordering: i64,
-    pub scale: i64,
+    pub btf: i32,
+    pub ordering: i32,
+    pub scale: i32,
     pub user_order: ::std::option::Option<
         unsafe extern "C" fn(
             arg1: i64,
@@ -47,9 +46,9 @@ pub struct KluLCommon {
         ) -> i64,
     >,
     pub user_data: *mut ::std::os::raw::c_void,
-    pub halt_if_singular: i64,
-    pub status: i64,
-    pub nrealloc: i64,
+    pub halt_if_singular: i32,
+    pub status: i32,
+    pub nrealloc: i32,
     pub structural_rank: i64,
     pub numerical_rank: i64,
     pub singular_col: i64,
@@ -102,7 +101,7 @@ pub struct KluCommon {
 
 extern "C" {
     pub fn klu_defaults(Common: *mut KluCommon) -> i32;
-    pub fn klu_l_defaults(Common: *mut KluLCommon) -> i64;
+    pub fn klu_l_defaults(Common: *mut KluLCommon) -> i32;
 
     pub fn klu_analyze(
         n: i32,
@@ -193,7 +192,7 @@ extern "C" {
         arg4: i64,
         arg5: *mut f64,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_solve(
         arg1: *mut KluLSymbolic,
@@ -202,7 +201,7 @@ extern "C" {
         arg4: i64,
         arg5: *mut f64,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_tsolve(
         Symbolic: *mut KluSymbolic,
@@ -230,7 +229,7 @@ extern "C" {
         arg4: i64,
         arg5: *mut f64,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_tsolve(
         arg1: *mut KluLSymbolic,
@@ -238,9 +237,9 @@ extern "C" {
         arg3: i64,
         arg4: i64,
         arg5: *mut f64,
-        arg6: i64,
-        arg7: *mut KluLCommon,
-    ) -> i64;
+        conj_solve: i32,
+        common: *mut KluLCommon,
+    ) -> i32;
 
     pub fn klu_refactor(
         Ap: *const i32,
@@ -267,7 +266,7 @@ extern "C" {
         arg4: *mut KluLSymbolic,
         arg5: *mut KluLNumeric,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_refactor(
         arg1: *mut i64,
@@ -276,19 +275,19 @@ extern "C" {
         arg4: *mut KluLSymbolic,
         arg5: *mut KluLNumeric,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_free_symbolic(Symbolic: *mut *mut KluSymbolic, Common: *mut KluCommon) -> i32;
 
-    pub fn klu_l_free_symbolic(arg1: *mut *mut KluLSymbolic, arg2: *mut KluLCommon) -> i64;
+    pub fn klu_l_free_symbolic(arg1: *mut *mut KluLSymbolic, arg2: *mut KluLCommon) -> i32;
 
     pub fn klu_free_numeric(Numeric: *mut *mut KluNumeric, Common: *mut KluCommon) -> i32;
 
     pub fn klu_z_free_numeric(Numeric: *mut *mut KluNumeric, Common: *mut KluCommon) -> i32;
 
-    pub fn klu_l_free_numeric(arg1: *mut *mut KluLNumeric, arg2: *mut KluLCommon) -> i64;
+    pub fn klu_l_free_numeric(arg1: *mut *mut KluLNumeric, arg2: *mut KluLCommon) -> i32;
 
-    pub fn klu_zl_free_numeric(arg1: *mut *mut KluLNumeric, arg2: *mut KluLCommon) -> i64;
+    pub fn klu_zl_free_numeric(arg1: *mut *mut KluLNumeric, arg2: *mut KluLCommon) -> i32;
 
     pub fn klu_sort(
         Symbolic: *mut KluSymbolic,
@@ -306,13 +305,13 @@ extern "C" {
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_sort(
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_flops(
         Symbolic: *mut KluSymbolic,
@@ -330,13 +329,13 @@ extern "C" {
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_flops(
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_rgrowth(
         Ap: *const i32,
@@ -363,7 +362,7 @@ extern "C" {
         arg4: *mut KluLSymbolic,
         arg5: *mut KluLNumeric,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_rgrowth(
         arg1: *mut i64,
@@ -372,7 +371,7 @@ extern "C" {
         arg4: *mut KluLSymbolic,
         arg5: *mut KluLNumeric,
         arg6: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_condest(
         Ap: *const i32,
@@ -396,7 +395,7 @@ extern "C" {
         arg3: *mut KluLSymbolic,
         arg4: *mut KluLNumeric,
         arg5: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_condest(
         arg1: *mut i64,
@@ -404,7 +403,7 @@ extern "C" {
         arg3: *mut KluLSymbolic,
         arg4: *mut KluLNumeric,
         arg5: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_rcond(
         Symbolic: *mut KluSymbolic,
@@ -422,13 +421,13 @@ extern "C" {
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_rcond(
         arg1: *mut KluLSymbolic,
         arg2: *mut KluLNumeric,
         arg3: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_scale(
         scale: i32,
@@ -453,26 +452,26 @@ extern "C" {
     ) -> i32;
 
     pub fn klu_l_scale(
-        arg1: i64,
-        arg2: i64,
-        arg3: *mut i64,
-        arg4: *mut i64,
-        arg5: *mut f64,
-        arg6: *mut f64,
-        arg7: *mut i64,
-        arg8: *mut KluLCommon,
-    ) -> i64;
+        scale: i32,
+        n: i64,
+        Ap: *mut i64,
+        Ai: *mut i64,
+        Ax: *mut f64,
+        Rs: *mut f64,
+        W: *mut i64,
+        Common: *mut KluLCommon,
+    ) -> i32;
 
     pub fn klu_zl_scale(
-        arg1: i64,
-        arg2: i64,
-        arg3: *mut i64,
-        arg4: *mut i64,
-        arg5: *mut f64,
-        arg6: *mut f64,
-        arg7: *mut i64,
-        arg8: *mut KluLCommon,
-    ) -> i64;
+        scale: i32,
+        n: i64,
+        Ap: *mut i64,
+        Ai: *mut i64,
+        Ax: *mut f64,
+        Rs: *mut f64,
+        W: *mut i64,
+        Common: *mut KluLCommon,
+    ) -> i32;
 
     pub fn klu_extract(
         Numeric: *mut KluNumeric,
@@ -532,7 +531,7 @@ extern "C" {
         arg14: *mut f64,
         arg15: *mut i64,
         arg16: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
 
     pub fn klu_zl_extract(
         arg1: *mut KluLNumeric,
@@ -554,5 +553,7 @@ extern "C" {
         arg17: *mut f64,
         arg18: *mut i64,
         arg19: *mut KluLCommon,
-    ) -> i64;
+    ) -> i32;
+
+    pub fn klu_version(version: *mut i32);
 }

@@ -617,7 +617,7 @@ impl KluIndex for i64 {
     }
 
     unsafe fn klu_defaults(common: *mut Self::KluCommon) -> Self {
-        klu_l_defaults(common)
+        klu_l_defaults(common) as Self
     }
 
     unsafe fn klu_analyze(
@@ -806,7 +806,7 @@ impl KluIndex for i64 {
             -2 => unreachable!("KLU error: OUT OF MEMORY"),
             -3 => unreachable!("KLU error: INVALID"),
             -4 => unreachable!("KLU error: TOO LARGE"),
-            code @ Self::MIN..=-5 => unreachable!("KLU failed with unkown errorcode {}", code),
+            code @ i32::MIN..=-5 => unreachable!("KLU failed with unkown errorcode {}", code),
             1 => unreachable!("Singular matrix!"),
             code => unreachable!("Unkown warning {code}"),
         }

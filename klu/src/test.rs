@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::rc::Rc;
 
-use float_cmp::{ApproxEq, F64Margin};
+use float_cmp::{ApproxEq, F64Margin, FloatMargin};
 use num_complex::Complex64;
 use proptest::prelude::{Strategy, TestCaseError};
 use proptest::strategy::Just;

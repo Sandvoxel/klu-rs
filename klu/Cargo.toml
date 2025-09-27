@@ -15,7 +15,7 @@ klu_sys = {version="0.2.0",path="../klu-sys"}
 
 [dev-dependencies]
 proptest = "1.0"
-float-cmp = "0.9"
+float-cmp = "0.10.0"
 
 [features]
 dynamic = ["klu_sys/dynamic"]
